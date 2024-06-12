@@ -1,0 +1,46 @@
+function [lambda_n, B_n] = sphere_factors(radius, order)
+% Returns the pair of numerical factors {lambda(n), B(n)} used to calculate the
+% the OGSE signal from inside a sphere. 
+%
+% For details, see the following paper (Eq. 7):
+% Xu, Junzhong et al. “Quantitative characterization of tissue microstructure
+% with temporal diffusion spectroscopy.” Journal of magnetic resonance 
+% (San Diego, Calif. : 1997) vol. 200,2 (2009): 189-97. doi:10.1016/j.jmr.2009.06.022
+% 
+% Input:
+% 	radius: radius of sphere
+% 	order: number of terms to return for the calculation (must be less than 31)
+%
+% Output:
+% 	lambda_n: array of numerical values
+% 	B_n: array of numerical values
+
+if (order > 30)
+    error('Error: The number of terms in the sum must be less than 31.');
+end
+
+sphere_roots = [2.0815759779176272737, 5.9403699908426634835,...
+ 9.2058401432823178112 , 12.404445022172499336,...
+15.579236410334509344 , 18.742645583213025873,...
+21.89969647970966804 , 25.052825281790116918,...
+28.203361003446328681 , 31.352091727307215052,...
+34.499514919777325872 , 37.645960323085951416,...
+40.791655230375518215 , 43.936761472506418613, ...
+47.08139741095223485 , 50.225651649502097484,...
+53.369591823170573264 , 56.513270462559866303,...
+59.656729002875543699 , 62.800000558333664458,...
+65.943111904168915771 , 69.086084945475562336,...
+72.228937761707229015 , 75.371685409855047055,...
+78.514340529238580757 , 81.656913820587789132,...
+84.799414392886021119 , 87.9418500394966145,...
+91.084227492309750573 , 94.226552572817169562];
+
+% Calculate the factors
+lambda_n = (sphere_roots.*sphere_roots)/(radius*radius);
+B_n = 2*(radius*radius./(sphere_roots.*sphere_roots))./(sphere_roots.*sphere_roots - 2);
+
+% Return a subset of factors if desired
+lambda_n = lambda_n(:, 1:order);
+B_n = B_n(:, 1:order);
+
+end
