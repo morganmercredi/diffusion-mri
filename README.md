@@ -75,6 +75,22 @@ The signal models for a few microstructural geometries are located in *Analysis_
 
 All quantities have units of millimeters, milliseconds, teslas or combinations of those.
 
+## Output
+
+Each structure output has a number of fields. Some of these names will change in the near future.
+
+For example, ScanParameters has fields such as *GradientDuration* and *GradientSeparation*, which represent the gradient duration and separation (in ms). These are in *NxM* arrays, where *N* is the number of scans and *M* is the number of images per scan.
+
+ROIs has information on voxel signal intensities and the region of interest. 
+ - *Mask* is a binary image where voxels in the region of interest are set to 1 and those outside are zero. 
+ - *MaskImage* is the MR image, but all voxels outside the region of interest are zero. 
+ - Individual voxel signals are stored in *VoxelSignal*, which is an *NxMxK* array, where *N* is the number of scans, *M* is the number of images per scan, and *K* is the number of voxels in the region of interest. 
+ - Voxel signal intensities averaged over the region of interest are stored in *roiSignal*, which is an *NxM* array, where *N* is the number of scans, *M* is the number of images per scan.
+
+MicrostructureModel has fields describing the model used, such as the model function (*signal_model*), parameter names (*parameter_names*), units for the parameters (units) lower and upper bounds on the parameters (*lower_bound*, *upper_bound*), whether a parameter was fixed to some value beforehand (*fixed*). Since some parameters can be fixed beforehand, the names of free parameters can be found with *parameter_names(~fixed)* and the set values for fixed parameters will be *beta_initial(fixed)*. 
+
+ROI has fields with the final estimated parameters. When using the **ROI** option, *roiParameters* stores the estimated parameters, where the elements correspond to the model parameters in *MicrostructureModel.parameter_names(~MicrostructureModel.fixed)*. Confidence intervals (95%) for each parameter are stored in *roiCI*. When using the **VBA** option, the array *voxelParameters* gives the estimated parameters for each voxel in the region of interest. Each column stores a different model parameter and the rows correspond to individual voxels. In the future, the structure ROI will probably be merged with MicrostructureModel.
+
 ## Citation
 
 If you use this software, you must acknowledge the creators of this repository, link to this repository, and cite the following paper.
