@@ -46,9 +46,9 @@ beta0 = MicrostructureModel.beta_initial;
 model_choice = MicrostructureModel.model_choice;
 
 % fit data from each ROI
-NOF = input('How many times you would like to fit the parameters? (1000):');
+NOF = input('How many times you would like to fit the parameters? (100):');
 if isempty(NOF)
-    NOF = 1000;
+    NOF = 100;
 end
 
 for j=1:length(ROI)
