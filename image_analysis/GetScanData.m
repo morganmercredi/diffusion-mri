@@ -25,7 +25,6 @@ for expnum = expnumstart:expnumstop
         info = load_method_vanderbilt(serdir);
     end
     
-    ScanParameters.NumberOfPeriods(count,1:info.numbs) = info.periods; % number of periods
     ScanParameters.GradientDuration(count,1:info.numbs) = info.graddur; % gradient duration (ms)
     ScanParameters.GradientSeparation(count,1:info.numbs) = info.gradsep; % separation time (ms)    
     
@@ -33,12 +32,16 @@ for expnum = expnumstart:expnumstop
     ScanParameters.grad = info.gradmax; % maximum gradient (Hz/mm)
     gamma = 42.6*10^(6); % (Hz/T)
     ScanParameters.GradientMaximum = ScanParameters.grad/gamma; % maximum gradient (T/mm)
-    
     ScanParameters.GradientStrength(count,1) = 0; % this is where it assumes A0 image comes first
     ScanParameters.GradientStrength(count,2:info.numbs) = info.percentgradstrength;
     
-    ScanParameters.typ = info.typesinus; % sequence
-    
+    if isfield(info,'typesinus')
+        ScanParameters.typ = info.typesinus; % sequence
+        ScanParameters.NumberOfPeriods(count,1:info.numbs) = info.periods; % number of periods
+    else
+        ScanParameters.typ = 'rect';
+    end
+        
     if strcmp(scanner,'Vanderbilt')
         ScanParameters.b_value(count,1) = 0; % this is where it assumes A0 image comes first
         ScanParameters.b_value(count,2:info.numbs) = info.bval*(1e3); % ms/mm^2

@@ -68,7 +68,7 @@ if status == 1
     info.direction = extract_matrix(methodinfo, '##$PVM_DwDir=');
     info.percentgradstrength = extract_matrix(methodinfo, '##$PVM_DwGradAmp=');    
     info.gradmax = extract_double(methodinfo, '##$PVM_GradCalConst=');
-    info.bval = extract_double(methodinfo, '##PVM_DwBvalEach=');
+    info.bval = extract_matrix(methodinfo, '##$PVM_DwBvalEach=');
     
     % Number of diffusion-weighted directions, diffusion-weighted
     % images per experiment, number of experiments, and number of b=0
@@ -83,7 +83,7 @@ if status == 1
     if strcmp(info.ogseyesorno, 'Yes')
         info.periods = extract_int(methodinfo, '##$REMMI_OgseLobes='); 
         info.typesinus = extract_string(methodinfo, '##$REMMI_SelOgseWave='); 
-    end;
+    end
     
 elseif status == 2
     % Loads the imnd file information into the matrix recoinfo
