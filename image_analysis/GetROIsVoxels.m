@@ -186,15 +186,15 @@ for expnum = 1:count
             ROIs(i).Mask = roipoly(image_fraction,ROIs(i).xreg,ROIs(i).yreg);
             ROIs(i).MaskImage = image_fraction.*double(ROIs(i).Mask);
             ROIs(i).VoxelSignal(expnum,bnum,:) = ROIs(i).MaskImage(find(ROIs(i).MaskImage))';
-            ROIs(i).roiSignal(expnum,bnum) = mean(ROIs(i).VoxelSignal(expnum,bnum,:));
-            ROIs(i).roiStdSignal(expnum,bnum) = std(ROIs(i).VoxelSignal(expnum,bnum,:));
+            ROIs(i).MeanROISignal(expnum,bnum) = mean(ROIs(i).VoxelSignal(expnum,bnum,:));
+            ROIs(i).StDevROISignal(expnum,bnum) = std(ROIs(i).VoxelSignal(expnum,bnum,:));
         end
         
         Noise.Mask = roipoly(image_fraction,Noise.xnoise,Noise.ynoise);
         Noise.MaskImage = image_fraction.*double(Noise.Mask);
         Noise.VoxelSignal = Noise.MaskImage(find(Noise.MaskImage));
-        Noise.roiSignal(expnum,bnum) = mean(Noise.VoxelSignal);
-        Noise.roiStdSignal(expnum,bnum) = std(Noise.VoxelSignal);    
+        Noise.MeanROISignal(expnum,bnum) = mean(Noise.VoxelSignal);
+        Noise.StDevROISignal(expnum,bnum) = std(Noise.VoxelSignal);    
     end  
 end
 
