@@ -1,13 +1,15 @@
-function Er = cosOGSESphere(par, x)
-% Calculates the diffusion-weighted cosine OGSE signal from inside a sphere.
+function Er = cosOGSEPlane(par, x)
+% Calculates the diffusion-weighted cosine OGSE signal from between two
+% parallel planes when the gradients are applied perpendicular to the
+% planes.
 %
 % Inputs:
 % par: Array of function parameters (in the order described below)
 % x: Array of independent variables
 %
 % Parameters:
-% diffusion_coefficient: Diffusion coefficient inside sphere (in units of mm^2/ms)
-% radius: Radius of sphere (in units of mm)
+% diffusion_coefficient: Diffusion coefficient inside cylinder (in units of mm^2/ms)
+% plane_separation: Distance between plates (in units of mm)
 %
 % Independent variables:
 % frequency: OGSE frequency (in units of kHz)
@@ -27,7 +29,7 @@ gradient_strength = x(:,2);
 gradient_duration = x(:,3);
 gradient_separation = x(:,4);
 
-Er = exp(-bCos(frequency, gradient_strength, gradient_duration).*cosDiffusivitySphere(par,x(:,[1 3 4])));
+Er = exp(-bCos(frequency, gradient_strength, gradient_duration).*cosDiffusivityPlane(par,x(:,[1 3 4])));
 
 end
 

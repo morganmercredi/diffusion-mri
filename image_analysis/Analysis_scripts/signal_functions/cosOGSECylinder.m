@@ -1,12 +1,13 @@
 function Er = cosOGSECylinder(par, x)
-% Calculates diffusion-weighted cosine OGSE signal (Er) from inside a cylinder
+% Calculates the diffusion-weighted cosine OGSE signal from inside a cylinder
+% when the gradients are applied perpendicular to the cylinder axis.
 %
 % Inputs:
 % par: Array of function parameters (in the order described below)
 % x: Array of independent variables (frequencies and gradient strengths)
 %
 % Parameters:
-% diffusion_perpendicular: Diffusion coefficient inside cylinder (in units of mm^2/ms)
+% diffusion_coefficient: Diffusion coefficient inside cylinder (in units of mm^2/ms)
 % radius: Radius of cylinder (in units of mm)
 %
 % Independent variables:
@@ -27,36 +28,7 @@ gradient_strength = x(:,2);
 gradient_duration = x(:,3);
 gradient_separation = x(:,4);
 
-% Parameters
-diffusion_perpendicular = par(1);
-radius = par(2);
-
-% Convert to angular frequency
-angular_frequency = 2*pi*frequency;
-
-% Gyromagnetic ratio
-gamma = gyromagnetic_ratio();
-
-% Some quantities for the calculation
-order = 20;
-[lambda_n, B_n] = cyl_factors(radius, order);
-
-% Begin signal calculation
-beta = 0;
-for j = 1:order
-    a = lambda_n(j)*diffusion_perpendicular;
-    b = B_n(j)*a*a;
-    c = a*a + angular_frequency.*angular_frequency;
-    d = gradient_duration/2 + sin(2*angular_frequency.*gradient_duration)./(4*angular_frequency);
-    e = -1.0 + exp(-a*gradient_duration) + exp(-a*gradient_separation) - 0.5*exp(a*(gradient_duration - gradient_separation)) -...
-        0.5*exp(-a*(gradient_separation + gradient_duration));
-    
-    sum = (b./(c.*c)).*((c/a).*d + e);
-
-    beta = beta + sum;
-end
-
-Er = exp(-2*gamma*gamma*gradient_strength.*gradient_strength.*beta);
+Er = exp(-bCos(frequency, gradient_strength, gradient_duration).*cosDiffusivityCylinder(par,x(:,[1 3 4])));
 
 end
 
