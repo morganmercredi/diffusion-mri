@@ -1,6 +1,7 @@
 function Er = cosOGSEGammaCylinder(par, x)
-% Calculates diffusion-weighted cosine OGSE signal (Er) from inside
-% a collection of cylinders. The cylinder diameters are assumed 
+% Calculates the diffusion-weighted cosine OGSE signal from inside a collection
+% of parallel cylinders when the gradients are applied perpendicular to the
+% cylinder axes. The cylinder diameters are assumed 
 % to be drawn from a gamma distribution.
 %
 % Inputs:
@@ -8,8 +9,9 @@ function Er = cosOGSEGammaCylinder(par, x)
 % x: Array of independent variables (frequencies and gradient strengths)
 %
 % Parameters:
-% diffusion_perpendicular: Diffusion coefficient inside cylinders (in units of mm^2/ms)
-% {alpha, beta}: Gamma distribution parameters (alpha is dimensionless, beta in units of 1/mm)
+% diffusion_coefficient: Diffusion coefficient inside cylinders (in units of mm^2/ms)
+% Gamma distribution parameter #1 ("k"): dimensionless parameter
+% Gamma distribution parameter #2 ("theta"): units of mm
 % rmin: Smallest cylinder radius (in units of mm)
 % rmax: Largest cylinder radius (in units of mm)
 % rincrements: Number of radius bins
@@ -21,9 +23,9 @@ function Er = cosOGSEGammaCylinder(par, x)
 % gradient_separation: Gradient separation (in units of ms)
 
 % Parameters
-diffusion_perpendicular = par(1);
-alpha = par(2);
-beta = par(3);
+diffusion_coefficient = par(1);
+k = par(2);
+theta = par(3);
 rmin = par(4);
 rmax = par(5);
 rincrements = par(6);
@@ -35,8 +37,8 @@ Er = 0;
 norm = 0;
 for i = 1:rincrements
     radius = rmin + (i - 0.5)*rinc;
-    gammaPDF = gampdf(radius, alpha, beta);    
-    Er = Er + gammaPDF*radius*radius*cosOGSECylinder([diffusion_perpendicular; radius], x);
+    gammaPDF = gampdf(radius, k, theta);    
+    Er = Er + gammaPDF*radius*radius*cosOGSECylinder([diffusion_coefficient; radius], x);
     norm = norm + gammaPDF*radius*radius;
 end
 
