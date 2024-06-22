@@ -16,6 +16,11 @@ function Er = rectCylinder(par, x)
 % gradient_separation: Gradient separation (in units of ms)
 %
 % The signal formula can be found in the following paper:
+%
+% Jiang, X., Li, H., Xie, J., McKinley, E.T., Zhao, P., Gore, J.C. and Xu,
+% J. (2017), In vivo imaging of cancer cell size and cellularity using
+% temporal diffusion spectroscopy. Magn. Reson. Med., 78: 156-164.
+% https://doi.org/10.1002/mrm.26356
 
 % Independent variables
 gradient_strength = x(:,1);
