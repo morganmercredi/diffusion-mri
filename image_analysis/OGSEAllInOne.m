@@ -1,4 +1,4 @@
-function ROI = OGSEAllInOne(scanner, expnumstart, expnumstop, slice, startfilename, analysis_type)
+function ROI = OGSEAllInOne(scanner, exps, slice, startfilename, analysis_type)
 % OGSEAllInOne.m is a function that runs GetOGSEData.m, GetVoxelROIs.m and
 % OGSEVoxelAnalysis.m given the Bruker Gradient series used to perform the scans,
 % the matrix size of the scans, the scans of interest and the start of the
@@ -7,8 +7,7 @@ function ROI = OGSEAllInOne(scanner, expnumstart, expnumstop, slice, startfilena
 %
 % Inputs:
 % scanner = scanner that was used to acquire images ('UW' or 'Vanderbilt')
-% expnumstart = start of DTI-OGSE scans (registered image numbering should match)
-% expnumstop = end of DTI-OGSE scans (registered image numbering should match)
+% exps = list of DTI-OGSE scans
 % slice = slice number, or the number after 'sl_' 
 % startfilename = start of the experiment name (e.g. 'mouse_')
 % analysis_type = describes whether to do voxel-based analysis ('VBA') or
@@ -28,34 +27,34 @@ end
 %% Part I
 disp('Select MRI Data:')
 datadirectory = uigetdir(); % location of data folder
-[~, fname]=fileparts(datadirectory);
+%[~, fname]=fileparts(datadirectory);
 datadirectory = [datadirectory '\'];
 
-subject_name = regexp(fname,'^[a-z]+','match');
-subject_name = strcat(subject_name{1}, '_');
-if ~strcmp(subject_name, startfilename)  
-    errordlg('Please check if the startfilename matches the subjectname in the chosen folder','Error');
-    disp(['Error: ',datadirectory, ' does not match. You will have to check if the startfilename matches the subjectname in the chosen folder']);
-    return
-end
+%subject_name = regexp(fname,'^[a-z]+','match');
+%subject_name = strcat(subject_name{1}, '_');
+%if ~strcmp(subject_name, startfilename)  
+%    errordlg('Please check if the startfilename matches the subjectname in the chosen folder','Error');
+%    disp(['Error: ',datadirectory, ' does not match. You will have to check if the startfilename matches the subjectname in the chosen folder']);
+%    return
+%end
 
-ScanParameters = GetScanData(scanner, datadirectory, expnumstart, expnumstop, dir);
+ScanParameters = GetScanData(scanner, datadirectory, exps, dir);
 
 %% Part II
 disp('Select Registered Images:')
 manregdirectory = uigetdir(); % registered images folder
-[~, fname]=fileparts(manregdirectory);
+%[~, fname]=fileparts(manregdirectory);
 manregdirectory = [manregdirectory '\'];
 
-subject_name = regexp(fname,'^[a-z]+','match');
-subject_name = strcat(subject_name{1}, '_');
-if ~strcmp(subject_name, startfilename)
-    errordlg('Please check if the startfilename matches the subjectname in the chosen folder','Error');
-    disp(['Error: ',datadirectory, ' does not match. You will have to check if the startfilename matches the subjectname in the chosen folder']);
-    return
-end
+%subject_name = regexp(fname,'^[a-z]+','match');
+%subject_name = strcat(subject_name{1}, '_');
+%if ~strcmp(subject_name, startfilename)
+%    errordlg('Please check if the startfilename matches the subjectname in the chosen folder','Error');
+%    disp(['Error: ',datadirectory, ' does not match. You will have to check if the startfilename matches the subjectname in the chosen folder']);
+%    return
+%end
 
-[ROIs, Noise] = GetROIsVoxels(manregdirectory,expnumstart,expnumstop,startfilename,slice,ScanParameters,dir);
+[ROIs, Noise] = GetROIsVoxels(manregdirectory,exps,startfilename,slice,ScanParameters,dir);
 
 %% Part III
 [ROI, MicrostructureModel] = OGSEVoxelAnalysis(analysis_type,ScanParameters,ROIs,Noise,dir);

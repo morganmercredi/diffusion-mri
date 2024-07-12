@@ -41,8 +41,8 @@ MicrostructureModel = ModelSelection(ScanParameters);
 signal_model = MicrostructureModel.signal_model;
 lb = MicrostructureModel.lower_bound;
 ub = MicrostructureModel.upper_bound;
-fixed = MicrostructureModel.fixed_parameter;
 beta0 = MicrostructureModel.beta_initial;
+fixed = MicrostructureModel.fixed_parameter;
 model_choice = MicrostructureModel.model_choice;
 
 % fit data from each ROI

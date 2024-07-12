@@ -1,13 +1,12 @@
-function [ROIs, Noise] = GetROIsVoxels(manregdirectory, expnumstart, expnumstop, startfilename, slice, ScanParameters, dir)
+function [ROIs, Noise] = GetROIsVoxels(manregdirectory, exps, startfilename, slice, ScanParameters, dir)
 % GetROIsVoxels.m is a function that lets the user draw regions of interest 
 % given the directory of the folder containing the registered images, the 
-% scans of interest, the start of the file name and the OGSE_parameters 
+% scans of interest, the start of the file name and the ScanParameters 
 % structure containing the scan information and saves it to a structure. 
 %
 % Inputs:
-% manregdirectory =  path to where the registered images are saved
-% start scan = start of DTI-OGSE scans
-% endscan =  end of DTI-OGSE scans
+% manregdirectory = path to where the registered images are saved
+% exps = list of DTI-OGSE scans
 % startfilename = start of file name prior to '_s1_'
 % slice = slice number, or the number after 'sl_' 
 % ScanParameters = structure containing the magnetic field strengths
@@ -19,13 +18,13 @@ function [ROIs, Noise] = GetROIsVoxels(manregdirectory, expnumstart, expnumstop,
 % Noise = structure containing information on the Noise drawn
 
 matrixsize = ScanParameters.size; % matrix size
-numscans = expnumstop-expnumstart+1; % number of scans
+numscans = length(exps); % number of scans
 numbs = size(ScanParameters.GradientStrength, 2); % number of gradients
 midfilename = strjoin({'_sl_', num2str(slice), '_'},'');
 alignedimages = zeros(matrixsize,matrixsize,numscans,numbs);
 
 count=0;
-for expnum=expnumstart:expnumstop
+for expnum=exps
     count = count+1;
     
     mostfilename=strjoin({manregdirectory,startfilename,num2str(expnum),midfilename},'');
@@ -51,7 +50,6 @@ for expnum=expnumstart:expnumstop
 end
 
 % Define ROIs
-
 figure(1);
 image_fraction = squeeze(alignedimages(:,:,numscans,1));
 imagesc(image_fraction);
@@ -169,16 +167,7 @@ end
 plot(Noise.xnoise,Noise.ynoise,'c')
 save(strcat(dir, '/MRImage.mat'),'image_fraction')
 
-for i = 1:length(ROIs)
-    ROIs(i).roiSignal = zeros(count,numbs);
-    ROIs(i).roiStdSignal = zeros(count,numbs);
-	ROIs(i).VoxelSignal = zeros(count,numbs,sum(ROIs(i).Mask(:)));
-end 
-
-Noise.VoxelSignal = zeros(count,numbs);
-Noise.stdnoise = zeros(count,numbs);
-
-for expnum = 1:count	
+for expnum = 1:numscans	
     for bnum = 1:numbs
         image_fraction = squeeze(alignedimages(:,:,expnum,bnum));
         

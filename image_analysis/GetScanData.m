@@ -1,13 +1,12 @@
-function ScanParameters = GetScanData(scanner, datadirectory, expnumstart, expnumstop, dir)
-% GetOGSEData.m is a function that reads the MRI data given the 
+function ScanParameters = GetScanData(scanner, datadirectory, exps, dir)
+% GetScanData.m is a function that reads the MRI data given the 
 % directory of the folder containing the scans and the scans of interest 
 % and acquires the scan parameters and saves it to a structure.  
 %
 % Inputs:
 % scanner = scanner that was used to acquire images ('UW' or 'Vanderbilt')
 % datadirectory = path to where MRI data is saved
-% expnumstart = start of DTI-OGSE scans
-% expnumstop = end of DTI-OGSE scans
+% exps = list of DTI-OGSE scans
 % dir = directory to save the output structure
 %
 % Output:
@@ -16,7 +15,7 @@ function ScanParameters = GetScanData(scanner, datadirectory, expnumstart, expnu
 % maximum gradient strength, sequence type, gradient strengths and 
 % magnetic field strengths used for the scans.
 count = 0;
-for expnum = expnumstart:expnumstop
+for expnum = exps
 	count = count+1;
     serdir = [datadirectory,num2str(expnum),'\'];
     if strcmp(scanner,'UW')
@@ -32,8 +31,12 @@ for expnum = expnumstart:expnumstop
     ScanParameters.grad = info.gradmax; % maximum gradient (Hz/mm)
     gamma = 42.6*10^(6); % (Hz/T)
     ScanParameters.GradientMaximum = ScanParameters.grad/gamma; % maximum gradient (T/mm)
-    ScanParameters.GradientStrength(count,1) = 0; % this is where it assumes A0 image comes first
-    ScanParameters.GradientStrength(count,2:info.numbs) = info.percentgradstrength;
+    if info.NA0 > 0
+        ScanParameters.GradientStrength(count,1) = 0; % this is where it assumes A0 image comes first
+        ScanParameters.GradientStrength(count,2:info.numbs) = info.percentgradstrength;
+    else
+        ScanParameters.GradientStrength(count,1:info.numbs) = info.percentgradstrength;
+    end
     
     if isfield(info,'typesinus')
         ScanParameters.typ = info.typesinus; % sequence
@@ -43,8 +46,12 @@ for expnum = expnumstart:expnumstop
     end
         
     if strcmp(scanner,'Vanderbilt')
-        ScanParameters.b_value(count,1) = 0; % this is where it assumes A0 image comes first
-        ScanParameters.b_value(count,2:info.numbs) = info.bval*(1e3); % ms/mm^2
+        if info.NA0 > 0
+            ScanParameters.b_value(count,1) = 0; % this is where it assumes A0 image comes first
+            ScanParameters.b_value(count,2:info.numbs) = info.bval*(1e3); % ms/mm^2
+        else
+            ScanParameters.b_value(count,1:info.numbs) = info.bval*(1e3); % ms/mm^2
+        end
     end
 end
 
