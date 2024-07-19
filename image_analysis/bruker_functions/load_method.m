@@ -53,7 +53,10 @@ if status == 1
     
     if strcmp(info.ogseyesorno,'Yes') || strcmp(info.ogseyesorno,'Oscillating_Gradient')
         info.periods = extract_int(methodinfo, '##$REMMI_OgseLobes='); 
-        info.typesinus = extract_string(methodinfo, '##$REMMI_SelOgseWave='); 
+        info.typesinus = extract_string(methodinfo, '##$REMMI_SelOgseWave=');
+	elseif strcmp(info.method,'dtiStandard_OGSE')
+        info.periods = extract_int(methodinfo, '##$num_of_periods=');
+        info.typesinus = extract_string(methodinfo, '##$type_of_sinus=');
     end
     
 end

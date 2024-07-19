@@ -14,28 +14,31 @@ function ScanParameters = GetScanData(scanner, datadirectory, exps, dir)
 % the scans including gradient duration, separation time, matrix size,
 % maximum gradient strength, sequence type, gradient strengths and 
 % magnetic field strengths used for the scans.
+
+gamma = 42.6*10^(6); % (Hz/T)
+
 count = 0;
 for expnum = exps
 	count = count+1;
+	
     serdir = [datadirectory,num2str(expnum),'\'];
-    if strcmp(scanner,'UW')
-        info = load_method_tubes(serdir);
-    elseif strcmp(scanner,'Vanderbilt')
-        info = load_method_vanderbilt(serdir);
-    end
+    info = load_method(serdir);
     
     ScanParameters.GradientDuration(count,1:info.numbs) = info.graddur; % gradient duration (ms)
     ScanParameters.GradientSeparation(count,1:info.numbs) = info.gradsep; % separation time (ms)    
     
     ScanParameters.size = info.dim(1); % matrix size
-    ScanParameters.grad = info.gradmax; % maximum gradient (Hz/mm)
-    gamma = 42.6*10^(6); % (Hz/T)
-    ScanParameters.GradientMaximum = ScanParameters.grad/gamma; % maximum gradient (T/mm)
+    ScanParameters.GradientMaximum = info.gradmax; % maximum gradient (Hz/mm)
+    ScanParameters.GradientMaximum = ScanParameters.GradientMaximum/gamma; % maximum gradient (T/mm)
+	
     if info.NA0 > 0
         ScanParameters.GradientStrength(count,1) = 0; % this is where it assumes A0 image comes first
         ScanParameters.GradientStrength(count,2:info.numbs) = info.percentgradstrength;
+		ScanParameters.b_value(count,1) = 0; % this is where it assumes A0 image comes first
+        ScanParameters.b_value(count,2:info.numbs) = info.bval*(1e3); % ms/mm^2
     else
         ScanParameters.GradientStrength(count,1:info.numbs) = info.percentgradstrength;
+        ScanParameters.b_value(count,1:info.numbs) = info.bval*(1e3); % ms/mm^2		
     end
     
     if isfield(info,'typesinus')
@@ -44,15 +47,7 @@ for expnum = exps
     else
         ScanParameters.typ = 'rect';
     end
-        
-    if strcmp(scanner,'Vanderbilt')
-        if info.NA0 > 0
-            ScanParameters.b_value(count,1) = 0; % this is where it assumes A0 image comes first
-            ScanParameters.b_value(count,2:info.numbs) = info.bval*(1e3); % ms/mm^2
-        else
-            ScanParameters.b_value(count,1:info.numbs) = info.bval*(1e3); % ms/mm^2
-        end
-    end
+
 end
 
 ScanParameters.GradientStrength = ScanParameters.GradientStrength/100; % percent as a fraction
