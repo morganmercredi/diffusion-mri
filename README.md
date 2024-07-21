@@ -14,7 +14,7 @@ There are three main parts to the program.
 OGSEAllInOne.m will run all three steps in one program.
 
 For example,
-`ROI = OGSEAllInOne(scanner, expnumstart, expnumstop, slice, startfilename, analysis_type);`
+`ROI = OGSEAllInOne(scanner, exps, slice, startfilename, analysis_type);`
 
 The program assumes that the file organization looks similar to the following.
 
