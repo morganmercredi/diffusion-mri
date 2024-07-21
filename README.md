@@ -47,6 +47,8 @@ The program assumes that the file organization looks similar to the following.
 ¦   ¦   +-- brain_3_sl_2_1.mat
 ¦   ¦   +-- brain_3_sl_2_2.mat
 ```
+Each .mat files should contain an variable called *target_aligned*, which has a *NxN* array of the registered image. The image registration software in the *image_registration* folder will output the registered images in the right format. 
+
 The function arguments are:
 
  - **scanner**: string specifying the scanner used to acquire the images (either "**UW**" (for University of Winnipeg) or "**Vanderbilt**".
