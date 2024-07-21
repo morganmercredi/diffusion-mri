@@ -2,6 +2,8 @@
 
 This repository houses MATLAB code used to analyze diffusion-weighted magnetic resonance images in Dr. Melanie Martin's lab at the University of Winnipeg.
 
+## Image Analysis
+
 There are three main parts to the program. 
 
  1. The first reads the MRI data and saves the scan parameters in a structure called ScanParameters.
@@ -48,8 +50,7 @@ The program assumes that the file organization looks similar to the following.
 The function arguments are:
 
  - **scanner**: string specifying the scanner used to acquire the images (either "**UW**" (for University of Winnipeg) or "**Vanderbilt**".
-  - **expnumstart**: first scan number (e.g. 1)
-  - **expnumstop**: final scan number (e.g. 3)
+  - **exps**: array of scans (e.g. [1 2 3 4 6 7 9])
   - **slice**: slice number (e.g. 1 or 2)
   -  **startfilename**: string with the beginning of the experiment name (e.g. "**brain_**")
   -  **analysis_type**: string specifying either "**ROI**" or  "**VBA**".  If **ROI** is used, voxel intensities in the region of interest will be averaged before analysis. If "**VBA**" is used, then each voxel in the region of interest will be analyzed individually.
@@ -59,8 +60,8 @@ A second prompt will come up, choose the folder with the registered images (e.g.
 
 Each part can also be run separately.
 ```
-ScanParameters = GetScanData(scanner, datadirectory, expnumstart, expnumstop, dir);
-[ROIs, Noise] = GetROIsVoxels(manregdirectory, expnumstart, expnumstop, startfilename, slice, ScanParameters, dir);
+ScanParameters = GetScanData(scanner, datadirectory, exps, dir);
+[ROIs, Noise] = GetROIsVoxels(manregdirectory, exps, startfilename, slice, ScanParameters, dir);
 [ROI, MicrostructureModel] = OGSEVoxelAnalysis(analysis_type, ScanParameters, ROIs, Noise, dir);
 ```
 In this case, **datadirectory** might be *MRI_data\brain_day2\\*, **manregdirectory** might be *Registered_images\brain_registeredslice1\\*, and **dir** is an existing folder for saving output.
@@ -96,4 +97,10 @@ ROI has fields with the final estimated parameters. When using the **ROI** optio
 If you use this software, you must acknowledge the creators of this repository, link to this repository, and cite the following paper.
 
 Mercredi, M., & Martin, M. (2018). Toward faster inference of micron-scale axon diameters using Monte Carlo simulations. Magnetic Resonance Materials in Physics, Biology and Medicine, 31, 511-530.
+
+## Image Registration
+
+This folder has a program to register diffusion MRI images.
+
+*More information to come...*
 
