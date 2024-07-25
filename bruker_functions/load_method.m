@@ -1,4 +1,4 @@
-function info = load_method_vanderbilt(serdir)
+function info = load_method(serdir)
 
 % Loads info from the method, reco, acqp, and subject file.
 %
