@@ -9,7 +9,7 @@ function fit_results = FitOGSESphere(signal_file)
 % 	fit_results = structure containing the results of the model fitting
 rng default;
 
-model = 1;
+model = 2;
 
 % Get OGSE data and signals from file
 [xdata ydata] = GetSignalData(signal_file);
@@ -33,12 +33,12 @@ switch model
         ub = [2.5e-6 0.01];
         fixed = [false false];
     case 2
-        signal_model = @(par,x) par(3)*cosOGSESphere(par(1:2),x) + (1 - par(3))*cosOGSEHindered(par(6),x);
+        signal_model = @(par,x) par(3)*cosOGSESphere(par(1:2),x) + (1 - par(3))*cosOGSEHindered(par(4),x);
         lb = [0 0 0 0];
         ub = [2.5e-6 0.01 1 2.5e-6];
         fixed = [false false false false];
     case 3
-        signal_model = @(par,x) par(5)*cosOGSESphere(par(1:2),x) + (1 - par(3))*cosOGSELinearHindered([par(6) par(7)],x);
+        signal_model = @(par,x) par(3)*cosOGSESphere(par(1:2),x) + (1 - par(3))*cosOGSELinearHindered([par(4) par(5)],x);
         lb = [0 0 0 0 0];
         ub = [2.5e-6 0.01 1 2.5e-6 1e-5];
         fixed = [false false false false false];
