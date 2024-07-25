@@ -28,15 +28,15 @@ switch model
         ub = [2.5e-6 50 0.01 Inf Inf Inf];
         fixed = [true false false true true true];
     case 2
-        signal_model = @(par,x) par(9)*cosOGSEGammaCylinder(par(1:8),x) + (1 - par(9))*cosOGSEHindered([par(1) par(10)],x);
-        lb = [0 0 0 1 0 0 0 0 0 0];
-        ub = [Inf Inf 2.5e-6 50 0.01 Inf Inf Inf 1 2.5e-6];
-        fixed = [true true true false false true true true false false];
+        signal_model = @(par,x) par(7)*cosOGSEGammaCylinder(par(1:6),x) + (1 - par(7))*cosOGSEHindered(par(8),x);
+        lb = [0 1 0 0 0 0 0 0];
+        ub = [2.5e-6 50 0.01 Inf Inf Inf 1 2.5e-6];
+        fixed = [true false false true true true false false];
     case 3
-        signal_model = @(par,x) par(9)*cosOGSEGammaCylinder(par(1:8),x) + (1 - par(9))*cosOGSELinearHindered([par(1) par(10) par(11)],x);
-        lb = [0 0 0 1 0 0 0 0 0 0 0];
-        ub = [Inf Inf 2.5e-6 50 0.01 Inf Inf Inf 1 2.5e-6 2.5e-6];
-        fixed = [true true true false false true true true false false false];
+        signal_model = @(par,x) par(7)*cosOGSEGammaCylinder(par(1:6),x) + (1 - par(7))*cosOGSELinearHindered([par(8) par(9)],x);
+        lb = [0 1 0 0 0 0 0 0 0];
+        ub = [2.5e-6 50 0.01 Inf Inf Inf 1 2.5e-6 2.5e-6];
+        fixed = [true false false true true true false false false];
 end
 
 % Set some sequence parameters

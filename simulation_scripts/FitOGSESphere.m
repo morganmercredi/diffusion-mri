@@ -33,15 +33,15 @@ switch model
         ub = [2.5e-6 0.01];
         fixed = [false false];
     case 2
-        signal_model = @(par,x) par(5)*cosOGSESphere(par(1:4),x) + (1 - par(5))*cosOGSEHindered([par(1) par(6)],x);
-        lb = [0 0 0 0 0 0];
-        ub = [Inf Inf 2.5e-6 0.01 1 2.5e-6];
-        fixed = [true true false false false false];
+        signal_model = @(par,x) par(3)*cosOGSESphere(par(1:2),x) + (1 - par(3))*cosOGSEHindered(par(6),x);
+        lb = [0 0 0 0];
+        ub = [2.5e-6 0.01 1 2.5e-6];
+        fixed = [false false false false];
     case 3
-        signal_model = @(par,x) par(5)*cosOGSESphere(par(1:4),x) + (1 - par(5))*cosOGSELinearHindered([par(1) par(6) par(7)],x);
-        lb = [0 0 0 0 0 0 0];
-        ub = [Inf Inf 2.5e-6 0.01 1 2.5e-6 1e-5];
-        fixed = [true true false false false false false];
+        signal_model = @(par,x) par(5)*cosOGSESphere(par(1:2),x) + (1 - par(3))*cosOGSELinearHindered([par(6) par(7)],x);
+        lb = [0 0 0 0 0];
+        ub = [2.5e-6 0.01 1 2.5e-6 1e-5];
+        fixed = [false false false false false];
 end
 
 % Prepare to do the fits
