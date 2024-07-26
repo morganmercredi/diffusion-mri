@@ -106,3 +106,9 @@ This folder has a program to register diffusion MRI images.
 
 *More information to come...*
 
+## Monte Carlo Simulation Analysis
+
+This folder has functions for analyzing Monte Carlo simulation data.
+
+*More details to come...*
+
