@@ -94,12 +94,6 @@ MicrostructureModel has fields describing the model used, such as the model func
 
 ROI has fields with the final estimated parameters. When using the **ROI** option, *roiParameters* stores the estimated parameters, where the elements correspond to the model parameters in *MicrostructureModel.parameter_names(~MicrostructureModel.fixed)*. Confidence intervals (95%) for each parameter are stored in *roiCI*. When using the **VBA** option, the array *voxelParameters* gives the estimated parameters for each voxel in the region of interest. Each column stores a different model parameter and the rows correspond to individual voxels. In the future, the structure ROI will probably be merged with MicrostructureModel.
 
-## Citation
-
-If you use this software, you must acknowledge the creators of this repository, link to this repository, and cite the following paper.
-
-Mercredi, M., & Martin, M. (2018). Toward faster inference of micron-scale axon diameters using Monte Carlo simulations. Magnetic Resonance Materials in Physics, Biology and Medicine, 31, 511-530.
-
 ## Image Registration
 
 This folder has a program to register diffusion MRI images.
@@ -112,3 +106,8 @@ This folder has functions for analyzing Monte Carlo simulation data.
 
 *More details to come...*
 
+## Citation
+
+If you use this software, you must acknowledge the creators of this repository, link to this repository, and cite the following paper.
+
+Mercredi, M., & Martin, M. (2018). Toward faster inference of micron-scale axon diameters using Monte Carlo simulations. Magnetic Resonance Materials in Physics, Biology and Medicine, 31, 511-530.
