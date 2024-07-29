@@ -78,7 +78,7 @@ The signal models for a few microstructural geometries are located in *Analysis_
 
 All quantities have units of millimeters, milliseconds, teslas or combinations of those.
 
-## Output
+### Output
 
 Each structure output has a number of fields. Some of these names will change in the near future.
 
@@ -96,24 +96,28 @@ ROI has fields with the final estimated parameters. When using the **ROI** optio
 
 ## Image Registration
 
-This folder has a program to register diffusion MRI images acquired on a Bruker scanner. Running *manreg* opens the program. When the file explorer pops up, navigate to a scan folder and select it. This will be the reference scan. The reference and target information is shown in the *Load Images* box in the upper left. The program should automatically detect the number of images and slices per scan. If necessary, change the number of slices and images per scan in the *Register Series* box (*# of Slices* or *# of Images*).
+This folder has a program to register diffusion MRI images acquired on a Bruker scanner. Running *manreg* opens a GUI. When the file explorer pops up, navigate to a scan folder and select it. This will be the reference scan. The first image for each slice will be the reference images. Reference and target scan information is shown in the **Load Images** box in the upper left. The program should automatically detect the number of images and slices per scan. If necessary, change the number of slices and images per scan in the **Register Series** box (**# of Slices** or **# of Images**).
 
 There a few ways to register images.
 
 The slow way:
-1. The *Load Images* button on the left side, in the *Register Series* box, will load the first image in the scan and display it in the *Reference/Target Images* box. Choosing *Reference* or *Target* switches between the reference and target image.
-2. The *Correlation* button will register the target image to the reference image.
-3. The *Save Image* button will save the registered image. Note that the target file *Image #* in the *Load Images* box has automatically incremented to the next image in the scan, which is the 2nd b-value for slice 1. 
-4. Repeat the steps 1-3 until all images in the target scan have been registered to the reference images. The AUTO button does steps 1-3 automatically.
+1. The **Load Images** button on the left side, in the **Register Series** box, will load the reference and target images and display them in the **Reference/Target Images** box. Choosing **Reference** or **Target** switches between the reference and target image.
+2. The **Correlation** button will register the target image to the reference image.
+3. The **Save Image** button will save the registered image in a .mat file displayed just above **Experiment Name**. The file format is *exp_[scan #]_sl_[slice #]_[image #].mat*. Once it's saved, the target **Image #** in the **Load Images** box will automatically increment to the next image in the scan.
+4. Repeat the steps 1-3 until all images in the target scan have been registered to the reference images. The **AUTO** button does steps 1-3 automatically.
 
 The fast way:
-Clicking AUTO ALL will automatically register all images in the scan to the reference image.
-
-*More information to come...*
+Clicking **AUTO ALL** will automatically register all images in the scan to the reference images. When it finishes, the target scan in **Load Images** will increment automatically. If you want to choose a new target scan instead, you can change the target file path in the **Load Images** box (suppose you need to skip over a scan). Remember to update the **Experiment Name** and the new file name just above it (for example, to *exp_[new scan #]* and *exp_[new scan #]_sl_[slice #]_[image #].mat*). As long as you don't change the target scan manually, the registered file names will update automatically. Clicking **AUTO ALL** again will automatically register all images in the new target scan to the reference images in the original scan. Repeat this process until all target scans are registered.
 
 ## Monte Carlo Simulation Analysis
 
 This folder has functions for analyzing Monte Carlo simulation data.
+
+There are a few types of analyses. 
+1. Fit the simulation data to a microstructure model.
+2. Add noise to the raw simulation data and fit to the model.
+3. Do step 2 many times, fitting hundreds of different instances of noisy data to the model and saving all results.
+4. Add simulated noise to the simulation data once and do bootstrap analysis.
 
 *More details to come...*
 
