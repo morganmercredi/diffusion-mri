@@ -1,4 +1,4 @@
-# White Matter Microstructure Modeling with Oscillating Gradients
+# White Matter Microstructure Modeling with OGSE
 
 This repository houses MATLAB code used to analyze diffusion-weighted magnetic resonance images in Dr. Melanie Martin's lab at the University of Winnipeg.
 
@@ -96,7 +96,18 @@ ROI has fields with the final estimated parameters. When using the **ROI** optio
 
 ## Image Registration
 
-This folder has a program to register diffusion MRI images.
+This folder has a program to register diffusion MRI images acquired on a Bruker scanner. Running *manreg* opens the program. When the file explorer pops up, navigate to a scan folder and select it. This will be the reference scan. The reference and target information is shown in the *Load Images* box in the upper left. The program should automatically detect the number of images and slices per scan. If necessary, change the number of slices and images per scan in the *Register Series* box (*# of Slices* or *# of Images*).
+
+There a few ways to register images.
+
+The slow way:
+1. The *Load Images* button on the left side, in the *Register Series* box, will load the first image in the scan and display it in the *Reference/Target Images* box. Choosing *Reference* or *Target* switches between the reference and target image.
+2. The *Correlation* button will register the target image to the reference image.
+3. The *Save Image* button will save the registered image. Note that the target file *Image #* in the *Load Images* box has automatically incremented to the next image in the scan, which is the 2nd b-value for slice 1. 
+4. Repeat the steps 1-3 until all images in the target scan have been registered to the reference images. The AUTO button does steps 1-3 automatically.
+
+The fast way:
+Clicking AUTO ALL will automatically register all images in the scan to the reference image.
 
 *More information to come...*
 
