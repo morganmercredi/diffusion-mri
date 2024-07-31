@@ -101,14 +101,14 @@ This folder has a program to register diffusion MRI images acquired on a Bruker 
 There a few ways to register images.
 
 The slow way:
-1. The **Load Images** button on the left side, in the **Register Series** box, will load the reference and target images and display them in the **Reference/Target Images** box. Choosing **Reference** or **Target** switches between the reference and target image.
-2. The **Correlation** button will register the target image to the reference image.
-3. The **Save Image** button will save the registered image in a .mat file displayed just above **Experiment Name**. The file format is ``exp_[scan #]_sl_[slice #]_[image #].mat``. Once it's saved, the target **Image #** in the **Load Images** box will automatically increment to the next image in the scan.
-4. Repeat the steps 1-3 until all images in the target scan have been registered to the reference images. The **AUTO** button does steps 1-3 automatically.
+>1. The **Load Images** button on the left side, in the **Register Series** box, will load the reference and target images and display them in the **Reference/Target Images** box. Choosing **Reference** or **Target** switches between the reference and target image.
+>2. The **Correlation** button will register the target image to the reference image.
+>3. The **Save Image** button will save the registered image in a .mat file displayed just above **Experiment Name**. The file format is ``exp_[scan #]_sl_[slice #]_[image #].mat``. Once it's saved, the target **Image #** in the **Load Images** box will automatically >increment to the next image in the scan.
+>4. Repeat the steps 1-3 until all images in the target scan have been registered to the reference images. The **AUTO** button does steps 1-3 automatically.
 
 The fast way:
 
-Clicking **AUTO ALL** will automatically register all images in the scan to the reference images. When it finishes, the target scan in **Load Images** will increment automatically. If you want to choose a new target scan instead, you can change the target file path in the **Load Images** box (suppose you need to skip over a scan). Remember to update the **Experiment Name** and the new file name just above it (for example, to ``exp_[new scan #]`` and ``exp_[new scan #]_sl_1_1.mat``). As long as you don't change the target scan manually, the registered file names will update automatically. Clicking **AUTO ALL** again will automatically register all images in the new target scan to the reference images in the original scan. Repeat this process until all target scans are registered.
+>Clicking **AUTO ALL** will automatically register all images in the scan to the reference images. When it finishes, the target scan in **Load Images** will increment automatically. If you want to choose a new target scan instead, you can change the target file path in the **Load Images** box (suppose you need to skip over a scan). Remember to update the **Experiment Name** and the new file name just above it (for example, to ``exp_[new scan #]`` and ``exp_[new scan #]_sl_1_1.mat``). As long as you don't change the target scan manually, the registered file names will update automatically. Clicking **AUTO ALL** again will automatically register all images in the new target scan to the reference images in the original scan. Repeat this process until all target scans are registered.
 
 ## Monte Carlo Simulation Analysis
 
