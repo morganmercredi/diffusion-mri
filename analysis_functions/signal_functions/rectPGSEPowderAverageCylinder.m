@@ -1,41 +1,47 @@
 function Er = rectPGSEPowderAverageCylinder(par, x)
-% Calculates the diffusion-weighted cosine OGSE signal from inside a cylinder.
+% Calculates the spherically averaged diffusion-weighted PGSE signal from inside a cylinder.
+%
+% For example, see the following paper:
+% Mariam Andersson, Marco Pizzolato, Hans Martin Kjer, Katrine Forum Skodborg, Henrik Lundell, Tim B. Dyrby,
+% Does powder averaging remove dispersion bias in diffusion MRI diameter estimates within real 3D axonal architectures?,
+% NeuroImage, Volume 248, 2022, 118718, ISSN 1053-8119, https://doi.org/10.1016/j.neuroimage.2021.118718.
 %
 % Inputs:
 % par: Array of function parameters (in the order described below)
-% x: Array of independent variables (frequencies and gradient strengths)
+% x: Array of independent variables
 %
 % Parameters:
-% diffusion_coefficient: Diffusion coefficient inside cylinder (in units of mm^2/ms)
+% perpendicular_diffusion_coefficient: Diffusion coefficient inside cylinder
+% measured perpendicular to the cylinder axis (in units of mm^2/ms)
 % radius: Radius of cylinder (in units of mm)
+% parallel_diffusion_coefficient: Diffusion coefficient inside cylinder
+% measured parallel to the cylinder axis (in units of mm^2/ms)
 %
 % Independent variables:
-% frequency: OGSE frequency (in units of kHz)
 % gradient_strength: Gradient strength (in units of T/mm)
 % gradient_duration: Gradient duration (in units of ms)
 % gradient_separation: Gradient separation (in units of ms)
-%
-% The signal formula can be found in the following paper:
-%
-% Xu, Junzhong et al. “Quantitative characterization of tissue microstructure
-% with temporal diffusion spectroscopy.” Journal of magnetic resonance 
-% (San Diego, Calif. : 1997) vol. 200,2 (2009): 189-97. doi:10.1016/j.jmr.2009.06.022
 
 % Independent variables
 gradient_strength = x(:,1);
 gradient_duration = x(:,2);
 gradient_separation = x(:,3);
-bvalue = bRect(gradient_strength, gradient_separation, gradient_duration);
 
 % Parameters
-%diffusion_perpendicular = par(1);
-%diffusion_parallel = par(2);
-diffusion_perpendicular = rectDiffusivityCylinder(par(1:2),x(:,2:3));
-diffusion_parallel = par(3);
+perpendicular_diffusion_coefficient = par(1);
+radius = par(2);
+parallel_diffusion_coefficient = par(3);
 
-Er = exp(-bvalue.*diffusion_perpendicular).*...
-    sqrt(pi./(4*bvalue.*(diffusion_parallel - diffusion_perpendicular))).*...
-    erf(sqrt(bvalue.*(diffusion_parallel - diffusion_perpendicular)));
+% Diffusivity perpendicular to cylinder axis
+diffusivity_perpendicular = rectDiffusivityCylinder(par(1:2),x(:,[2 3]));
+
+% b-value
+bvalue = bRect(gradient_strength, gradient_separation, gradient_duration);
+
+% Compute signal
+Er = exp(-bvalue.*diffusivity_perpendicular).*...
+    sqrt(pi./(4*bvalue.*(parallel_diffusion_coefficient - diffusivity_perpendicular))).*...
+    erf(sqrt(bvalue.*(parallel_diffusion_coefficient - diffusivity_perpendicular)));
 
 end
 
