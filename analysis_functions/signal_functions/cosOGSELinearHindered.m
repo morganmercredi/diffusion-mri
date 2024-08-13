@@ -1,6 +1,7 @@
 function Eh = cosOGSELinearHindered(par, x)
-% Calculates diffusion-weighted cosine OGSE signal (Eh) for hindered diffusion
-% This function assumes that the extracellular ADC varies linearly with OGSE 
+% Calculates the diffusion-weighted cosine OGSE signal from a radially symmetric
+% diffusion tensor when the gradients are applied perpendicular to the principal axis.
+% This function assumes that the radial diffusivity varies linearly with OG
 % frequency: D(f) = D(f=0) + m*f
 %
 % For example, see the following paper:
@@ -10,10 +11,9 @@ function Eh = cosOGSELinearHindered(par, x)
 %
 % Inputs:
 % par: Array of function parameters (in the order described below)
-% x: Array of independent variable values (frequencies and gradient strengths)
+% x: Array of independent variable values
 
 % Parameters:
-% gradient_duration: Gradient duration (in units of ms)
 % hindered_diffusion_coefficient: Hindered diffusion coefficient (in units of mm^2/ms)
 % m: Rate of change in ADC in hindered space (mm^2)
 %

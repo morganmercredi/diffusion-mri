@@ -1,9 +1,10 @@
 function Eh = cosOGSEHindered(par, x)
-% Calculates diffusion-weighted cosine OGSE signal (Eh) for hindered diffusion
+% Calculates the diffusion-weighted cosine OGSE signal from a radially symmetric
+% diffusion tensor when the gradients are applied perpendicular to the principal axis.
 %
 % Inputs:
 % par: Array of function parameters (in the order described below)
-% x: Array of independent variable values (frequencies and gradient strengths)
+% x: Array of independent variable values
 
 % Parameters:
 % hindered_diffusion_coefficient: Hindered diffusion coefficient (in units of mm^2/ms)
