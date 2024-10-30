@@ -28,7 +28,10 @@ gradient_strength = x(:,2);
 gradient_duration = x(:,3);
 gradient_separation = x(:,4);
 
-Er = exp(-bCos(frequency, gradient_strength, gradient_duration).*cosDiffusivityCylinder(par,x(:,[1 3 4])));
+bvalue = bCos(frequency, gradient_strength, gradient_duration);
+diffusivity = cosDiffusivityCylinder(par,x(:,[1 3 4]));
+
+Er = exp(-bvalue.*diffusivity);
 
 end
 

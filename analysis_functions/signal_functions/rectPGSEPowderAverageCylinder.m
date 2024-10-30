@@ -40,8 +40,8 @@ bvalue = bRect(gradient_strength, gradient_separation, gradient_duration);
 
 % Compute signal
 Er = exp(-bvalue.*diffusivity_perpendicular).*...
-    sqrt(pi./(4*bvalue.*(parallel_diffusion_coefficient - diffusivity_perpendicular))).*...
-    erf(sqrt(bvalue.*(parallel_diffusion_coefficient - diffusivity_perpendicular)));
+    sqrt(pi./(4*bvalue.*abs(parallel_diffusion_coefficient - diffusivity_perpendicular))).*...
+    erf(sqrt(bvalue.*abs(parallel_diffusion_coefficient - diffusivity_perpendicular)));
 
 end
 
